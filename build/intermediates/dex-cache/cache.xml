@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/bf43a3b5769a9591cdc4d11ca15ae5ef1ffaf611/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_920bb174cae62a58862d6dd518844b6b196fdbf6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/26427abfd1cd24d3309916e6a74d3176bac9902b/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="25438f55fc6d906a0e72f30b21487541430ede43">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_ad821a573a2e0f6b02d2ed0d239e88ffb36b48f0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="088984bbcb396dc06343fb39a5ebcac56ae09777">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_91b037c4d79be5c506f2d3f1d4d4f1f26130dd35/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/62cca7f04b16feb3df7b3789c331b9889da94b64/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e0dbf2e44681d06718080c339a141af030784777/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/64ca19682997aa85ea8c6b452f3d6d84ef3d3901/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6116e0e7069de7fc259aac8e08b84f32c2038231">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1e6c2b2d73b5a7aa8b94c33aa7c0af79456b190a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/bc5eacb8ad39f12d14cb3d4eb5f51a45d5625aba/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_50753ec4ea4b5503b25ada5ba91e934274c901dd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/2acca7d7387e5b1b2eb8d631a0dcd1bdc09907f4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="486371f97baad8e607f332f20fee1d3dd00a731a">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_86258b3830f09a3078cd481eb804fb74a00aa58e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_a0085d8f1b9bc8650226266f1e91a22e7e3b4424/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ryotaro/.android/build-cache/0c26a622f9934dec09fbe99e6acfa3789499552e/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
+        <dex dex="/Users/ryotaro/repositories/MyFinance/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_29dfa1eea043c13043a4438919bcb9df39cef34c/classes.dex" />
+    </item>
+
+</items>
