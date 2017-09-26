@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "41363205683",
-    "firebase_url": "https://myfinance-8bd00.firebaseio.com",
-    "project_id": "myfinance-8bd00",
-    "storage_bucket": "myfinance-8bd00.appspot.com"
+    "project_number": "178322193510",
+    "firebase_url": "https://my-finance-11b97.firebaseio.com",
+    "project_id": "my-finance-11b97",
+    "storage_bucket": "my-finance-11b97.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:41363205683:android:55bb3174ea905d04",
+        "mobilesdk_app_id": "1:178322193510:android:55bb3174ea905d04",
         "android_client_info": {
           "package_name": "apps.ryotaro.myfinance"
         }
       },
       "oauth_client": [
         {
-          "client_id": "41363205683-9dv22quj706apm931ko49k6bp092nb0q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "apps.ryotaro.myfinance",
-            "certificate_hash": "ac11a9c66259e9f3cb134dd9f6826694815c79cc"
-          }
-        },
-        {
-          "client_id": "41363205683-l0fukd4rkaeh1uf204upuf6iggp5qf04.apps.googleusercontent.com",
+          "client_id": "178322193510-fhcfk6tabglafuj5k2krsmeeurvpk6i9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCsZxDctL0BjPZGY9FNFXVd7l2c54lxTPc"
+          "current_key": "AIzaSyC4wH09eshGOaOvG13_gSkYXRhOLTikGaU"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "41363205683-l0fukd4rkaeh1uf204upuf6iggp5qf04.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
