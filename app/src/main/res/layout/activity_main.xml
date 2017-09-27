@@ -39,10 +39,19 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Login"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="174dp" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Logout"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="174dp" />
 
