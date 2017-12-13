@@ -1,5 +1,6 @@
 package apps.ryotaro.myfinance;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,10 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
-        Button loginButton = (Button) findViewById(R.id.login_button);
-        Button logoutButton = (Button) findViewById(R.id.logout_button);
-        loginButton.setOnClickListener(this);
-        logoutButton.setOnClickListener(this);
+        ((Button) findViewById(R.id.login_button)).setOnClickListener(this);
+        ((Button) findViewById(R.id.logout_button)).setOnClickListener(this);
+        ((Button) findViewById(R.id.spread_button)).setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         });
             } else if (v.getId() == R.id.logout_button) {
                 mAuth.signOut();
+            } else if (v.getId() == R.id.spread_button) {
+                startActivity(new Intent(MainActivity.this, SpreadActivity.class));
             }
         }
     }

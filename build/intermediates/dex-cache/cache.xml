@@ -146,6 +146,15 @@
         <dex dex="C:\Users\Ryotaro\repositories\Account\app\build\intermediates\pre-dexed\debug\classes_71f65933904887127b267fdf02923e0723a5d68b.jar" />
     </item>
     <item
+        is-multidex="true"
+        jar="C:\Users\Ryotaro\repositories\Account\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3f1168af0c88f93097ebfe8118950bd969783028">
+        <dex dex="C:\Users\Ryotaro\repositories\Account\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_799da1b1bb0e944153f4bff4e8fd93d2a70533ba\classes.dex" />
+    </item>
+    <item
         is-multidex="false"
         jar="C:\Users\Ryotaro\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
         jumboMode="false"
@@ -216,6 +225,15 @@
         revision="26.0.0"
         sha1="d695dc4247690369d66c022c6d18190155c61fcd">
         <dex dex="C:\Users\Ryotaro\repositories\Account\app\build\intermediates\pre-dexed\debug\classes_23f44f78ba61e346b74e8e45a98423c1d7f083c3.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Ryotaro\repositories\Account\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Ryotaro\repositories\Account\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_995517ffef6904a953434b8c202360b09f20b01a\classes.dex" />
     </item>
     <item
         is-multidex="false"
