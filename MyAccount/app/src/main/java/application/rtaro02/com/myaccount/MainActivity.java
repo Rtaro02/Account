@@ -58,7 +58,7 @@ public class MainActivity extends Activity
 
     private static final String BUTTON_TEXT = "Call Google Sheets API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
+    private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
 
     /**
      * Create the main activity.
@@ -336,6 +336,7 @@ public class MainActivity extends Activity
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
+                putDataFromApi();
                 return getDataFromApi();
             } catch (Exception e) {
                 mLastError = e;
@@ -367,6 +368,25 @@ public class MainActivity extends Activity
                 );
             }
             return results;
+        }
+
+        /**
+         * データを書き込むメソッド
+         * @throws IOException
+         */
+        private void putDataFromApi() throws IOException {
+            String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
+            String range = "hoge!a2:d2";
+            ValueRange valueRange = new ValueRange();
+            List row = new ArrayList<>();
+            List col = Arrays.asList("This", "is", "test", "test");
+            row.add(col);
+            valueRange.setValues(row);
+            valueRange.setRange(range);
+            this.mService.spreadsheets().values()
+                    .update(spreadsheetId, range, valueRange)
+                    .setValueInputOption("USER_ENTERED")
+                    .execute();
         }
 
 
