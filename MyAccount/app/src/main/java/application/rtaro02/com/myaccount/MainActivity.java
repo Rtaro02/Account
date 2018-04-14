@@ -85,6 +85,13 @@ public class MainActivity extends Activity
                 getResultsFromApi();
             }
         });
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // クリック時の処理
+                TextView textView = findViewById(R.id.main_text);
+                textView.setText("hoge");
+            }
+        });
     }
 
 
@@ -379,7 +386,8 @@ public class MainActivity extends Activity
                 mOutputText.setText("No results returned.");
             } else {
                 output.add(0, "Data retrieved using the Google Sheets API:");
-                mOutputText.setText(TextUtils.join("\n", output));
+                TextView textView = findViewById(R.id.output_text);
+                textView.setText(TextUtils.join("\n", output));
             }
         }
 
