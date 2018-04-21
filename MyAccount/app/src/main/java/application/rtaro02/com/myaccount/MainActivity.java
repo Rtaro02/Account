@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -78,8 +79,7 @@ public class MainActivity extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        Button button = findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // クリック時の処理
                 getResultsFromApi();
@@ -89,7 +89,8 @@ public class MainActivity extends Activity
             public void onClick(View v) {
                 // クリック時の処理
                 TextView textView = findViewById(R.id.main_text);
-                textView.setText("hoge");
+                String str = ((EditText) findViewById(R.id.editText)).getText().toString();
+                textView.setText(strssss);
             }
         });
     }

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MyAccount</string>
     <string name="action_settings">Settings</string>
+    <string-array name="buy">
+        <item>収入</item>
+        <item>支出</item>
+    </string-array>
 </resources>
