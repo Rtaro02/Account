@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -71,14 +70,6 @@ public class MainActivity extends Activity
             public void onClick(View v) {
                 // クリック時の処理
                 getResultsFromApi();
-            }
-        });
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // クリック時の処理
-                TextView textView = findViewById(R.id.main_text);
-                String str = ((EditText) findViewById(R.id.editText)).getText().toString();
-                textView.setText(str);
             }
         });
     }

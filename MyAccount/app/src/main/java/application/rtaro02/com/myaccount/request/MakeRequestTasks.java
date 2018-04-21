@@ -22,7 +22,7 @@ import java.util.List;
  * Created by ryotaro on 2018/04/21.
  */
 
-public class MakeRequestTasks extends AsyncTask<Void, Void, List<String>> {
+public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     private com.google.api.services.sheets.v4.Sheets mService = null;
     private Exception mLastError = null;
 
@@ -31,6 +31,7 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, List<String>> {
     private ProgressDialog mProgress;
 
     public MakeRequestTasks(GoogleAccountCredential credential) {
+        this.mCredential = credential;
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         mService = new com.google.api.services.sheets.v4.Sheets.Builder(
@@ -52,40 +53,14 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, List<String>> {
      * @param params no parameters needed for this task.
      */
     @Override
-    protected List<String> doInBackground(Void... params) {
+    protected Void doInBackground(Void... params) {
         try {
             putDataFromApi();
-            return getDataFromApi();
         } catch (Exception e) {
             mLastError = e;
             cancel(true);
-            return null;
         }
-    }
-
-    /**
-     * Fetch a list of names and majors of students in a sample spreadsheet:
-     * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-     * @return List of names and majors
-     * @throws IOException
-     */
-    private List<String> getDataFromApi() throws IOException {
-        String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
-        String range = "hoge!a1:d1";
-        List<String> results = new ArrayList<String>();
-        ValueRange response = this.mService.spreadsheets().values()
-                .get(spreadsheetId, range)
-                .execute();
-        List<List<Object>> values = response.getValues();
-        for (List row : values) {
-            results.add(
-                    row.get(0) + ", " +
-                            row.get(1) + ", " +
-                            row.get(2) + ", " +
-                            row.get(3)
-            );
-        }
-        return results;
+        return null;
     }
 
     /**
@@ -114,15 +89,8 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, List<String>> {
     }
 
     @Override
-    protected void onPostExecute(List<String> output) {
+    protected void onPostExecute(Void tmp) {
         mProgress.hide();
-        if (output == null || output.size() == 0) {
-            mOutputText.setText("No results returned.");
-        } else {
-            output.add(0, "Data retrieved using the Google Sheets API:");
-            //TextView textView = findViewById(R.id.output_text);
-            //textView.setText(TextUtils.join("\n", output));
-        }
     }
 
     @Override
