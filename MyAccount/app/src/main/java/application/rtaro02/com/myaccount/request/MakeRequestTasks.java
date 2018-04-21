@@ -55,6 +55,7 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
+            getRangeFromApi();
             putDataFromApi();
         } catch (Exception e) {
             mLastError = e;
@@ -80,6 +81,15 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
                 .update(spreadsheetId, range, valueRange)
                 .setValueInputOption("USER_ENTERED")
                 .execute();
+    }
+
+    /**
+     * データを書き込むメソッド
+     * @throws IOException
+     */
+    private void getRangeFromApi() throws IOException {
+        String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
+        System.out.println(this.mService.spreadsheets().values().batchGet(spreadsheetId));
     }
 
     @Override

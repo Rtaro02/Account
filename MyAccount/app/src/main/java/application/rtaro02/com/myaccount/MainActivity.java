@@ -55,16 +55,19 @@ public class MainActivity extends GoogleAPIActivity
 
         setContentView(R.layout.activity_main);
 
+
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // クリック時の処理
-                getResultsFromApi();
-            }
-        });
+        findViewById(R.id.button2).setOnClickListener(new UpdateClickListener());
+    }
+
+    private class UpdateClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            getResultsFromApi();
+        }
     }
 
     /**
