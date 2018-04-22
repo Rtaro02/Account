@@ -24,6 +24,11 @@ public class DefaultRequest {
     /**
      * 収支分類
      */
+    private String typeOfBuy;
+
+    /**
+     * 支払い分類
+     */
     private String typeOfPayment;
 
     /**
@@ -40,6 +45,15 @@ public class DefaultRequest {
      * 概要
      */
     private String overview;
+
+
+    public String getTypeOfBuy() {
+        return typeOfBuy;
+    }
+
+    public void setTypeOfBuy(String typeOfBuy) {
+        this.typeOfBuy = typeOfBuy;
+    }
 
     public String getTimestamp() {
         return timestamp;

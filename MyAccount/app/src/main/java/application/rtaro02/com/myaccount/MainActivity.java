@@ -11,15 +11,18 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
+import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -70,7 +73,7 @@ public class MainActivity extends GoogleAPIActivity
     private void readValue() {
         LayoutInflater inflater=this.getLayoutInflater();
         View view=inflater.inflate(R.layout.content_main, null);
-        EditText editText = findViewById(R.id.editText);
+        EditText editText = findViewById(R.id.buyDate);
         System.out.println(editText.getText().toString());
     }
 
@@ -89,11 +92,49 @@ public class MainActivity extends GoogleAPIActivity
         } else if (! isDeviceOnline()) {
             mOutputText.setText("No network connection available.");
         } else {
-            MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential);
+            DefaultRequest dr = new DefaultRequest();
+            setRequestData(dr);
+            MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
             makeRequestTask.setMOutputText(mOutputText);
             makeRequestTask.setMProgress(mProgress);
             makeRequestTask.execute();
         }
+    }
+
+    private void setRequestData(DefaultRequest dr){
+        // タイムスタンプの設定
+        dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
+        // 購買日の設定
+        EditText editText = findViewById(R.id.buyDate);
+        dr.setBuyDate((editText.getText().toString()));
+        // 収支分類の取得
+        Spinner typeOfBuy = findViewById(R.id.typeOfBuy);
+        String typeOfBuyStr = typeOfBuy.getSelectedItem().toString();
+        // 収入or支出の設定
+        if(isIncome(typeOfBuyStr)){
+            dr.setIncomeOrPayment("収入");
+        } else {
+            dr.setIncomeOrPayment("支出");
+        }
+        // 収支分類の設定
+        dr.setTypeOfBuy(typeOfBuyStr);
+        // 支払い分類の取得
+        Spinner typeOfPayment = findViewById(R.id.typeOfPayment);
+        String typeOfPaymentStr = typeOfPayment.getSelectedItem().toString();
+        if(typeOfPaymentStr.equals("スイカ")) {
+            dr.setTypeOfPayment("現金等のカード以外");
+            dr.setSuicaPayFlg(true);
+        } else {
+            dr.setTypeOfPayment(typeOfPaymentStr);
+            dr.setSuicaPayFlg(false);
+        }
+        // 概要の設定
+        EditText overviewText = findViewById(R.id.overview);
+        dr.setOverview((overviewText.getText().toString()));
+    }
+
+    private boolean isIncome(String typeOfBuy){
+        return typeOfBuy.equals("現金下す") || typeOfBuy.equals("収入");
     }
 
     /**

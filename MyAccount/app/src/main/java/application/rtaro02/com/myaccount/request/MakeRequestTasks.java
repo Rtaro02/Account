@@ -23,10 +23,10 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import application.rtaro02.com.myaccount.model.DefaultRequest;
 
 /**
  * Created by ryotaro on 2018/04/21.
@@ -39,8 +39,12 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private ProgressDialog mProgress;
+    private DefaultRequest dr;
 
-    public MakeRequestTasks(GoogleAccountCredential credential) {
+    private MakeRequestTasks(){}
+
+    public MakeRequestTasks(GoogleAccountCredential credential, DefaultRequest dr) {
+        this.dr = dr;
         this.mCredential = credential;
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -80,11 +84,19 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
      */
     private void putDataFromApi() throws IOException {
         String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
-        String range = "hoge!a1:d1";
+        String range = "hoge!a1:h1";
         ValueRange valueRange = new ValueRange();
         List row = new ArrayList<>();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        List col = Arrays.asList(timestamp.toString(), "is", "test", "test");
+        //List col = Arrays.asList(dr.getTimestamp(), dr.getBuyDate(), dr.getIncomeOrPayment(),);
+        List col = new ArrayList<>();
+        col.add(dr.getTimestamp());
+        col.add(dr.getBuyDate());
+        col.add(dr.getIncomeOrPayment());
+        col.add(dr.getTypeOfBuy());
+        col.add(dr.getTypeOfPayment());
+        col.add(dr.isSuicaPayFlg());
+        col.add(dr.getPrice());
+        col.add(dr.getOverview());
         row.add(col);
         valueRange.setValues(row);
         valueRange.setRange(range);
