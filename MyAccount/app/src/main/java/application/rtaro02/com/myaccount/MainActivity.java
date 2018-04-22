@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -47,11 +48,6 @@ public class MainActivity extends GoogleAPIActivity
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Sheets API ...");
-        LayoutInflater inflater=this.getLayoutInflater();
-        View view=inflater.inflate(R.layout.content_main, null);
-
-        mOutputText = view.findViewById(R.id.main_text);
-        mOutputText.setText("a");
 
         setContentView(R.layout.activity_main);
 
@@ -66,8 +62,16 @@ public class MainActivity extends GoogleAPIActivity
     private class UpdateClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            readValue();
             getResultsFromApi();
         }
+    }
+
+    private void readValue() {
+        LayoutInflater inflater=this.getLayoutInflater();
+        View view=inflater.inflate(R.layout.content_main, null);
+        EditText editText = findViewById(R.id.editText);
+        System.out.println(editText.getText().toString());
     }
 
     /**

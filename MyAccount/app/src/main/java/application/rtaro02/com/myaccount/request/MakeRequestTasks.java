@@ -23,6 +23,7 @@ import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,10 +80,11 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
      */
     private void putDataFromApi() throws IOException {
         String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
-        String range = "hoge!a2:d2";
+        String range = "hoge!a1:d1";
         ValueRange valueRange = new ValueRange();
         List row = new ArrayList<>();
-        List col = Arrays.asList("This", "is", "test", "test");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        List col = Arrays.asList(timestamp.toString(), "is", "test", "test");
         row.add(col);
         valueRange.setValues(row);
         valueRange.setRange(range);
@@ -93,7 +95,7 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     }
 
     /**
-     * データを書き込むメソッド
+     * 列を挿入するメソッド
      * @throws IOException
      */
     private void getRangeFromApi() throws IOException, GeneralSecurityException {
