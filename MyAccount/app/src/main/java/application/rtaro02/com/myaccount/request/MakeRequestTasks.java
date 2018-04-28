@@ -1,15 +1,16 @@
 package application.rtaro02.com.myaccount.request;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -26,7 +27,10 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.rtaro02.com.myaccount.MainActivity;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by ryotaro on 2018/04/21.
@@ -40,6 +44,9 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     private TextView mOutputText;
     private ProgressDialog mProgress;
     private DefaultRequest dr;
+    private String spreadsheetId = "1pBkvc6FJ-7f0lBlq55p_qT-UqBMe1RrehRMPMGFb6xQ";
+    private int sheetId = 424497227;
+    private Activity activity;
 
     private MakeRequestTasks(){}
 
@@ -52,6 +59,10 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
                 transport, jsonFactory, credential)
                 .setApplicationName("Google Sheets API Android Quickstart")
                 .build();
+    }
+
+    public void setMainActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public void setMOutputText(TextView mOutputText) {
@@ -83,11 +94,9 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
      * @throws IOException
      */
     private void putDataFromApi() throws IOException {
-        String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
-        String range = "hoge!a1:h1";
+        String range = "List!a2:h2";
         ValueRange valueRange = new ValueRange();
         List row = new ArrayList<>();
-        //List col = Arrays.asList(dr.getTimestamp(), dr.getBuyDate(), dr.getIncomeOrPayment(),);
         List col = new ArrayList<>();
         col.add(dr.getTimestamp());
         col.add(dr.getBuyDate());
@@ -111,13 +120,12 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
      * @throws IOException
      */
     private void getRangeFromApi() throws IOException, GeneralSecurityException {
-        String spreadsheetId = "1sXe8CICyRq3mP6SVelPfUefLTnl0hrSuHbjEAMb1Phw";
         List<Request> requests = new ArrayList<>();
         DimensionRange dimensionRange = new DimensionRange();
-        dimensionRange.setSheetId(0);
+        dimensionRange.setSheetId(sheetId);
         dimensionRange.setDimension("ROWS");
-        dimensionRange.setStartIndex(0);
-        dimensionRange.setEndIndex(1);
+        dimensionRange.setStartIndex(1);
+        dimensionRange.setEndIndex(2);
         InsertDimensionRequest insertDimension = new InsertDimensionRequest();
         insertDimension.setRange(dimensionRange);
         Request r = new Request();
@@ -137,28 +145,28 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
         System.out.println(this.mService.spreadsheets().values().batchGet(spreadsheetId).execute());
     }
 
-    public static Sheets createSheetsService() throws IOException, GeneralSecurityException {
-        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-
-        // TODO: Change placeholder below to generate authentication credentials. See
-        // https://developers.google.com/sheets/quickstart/java#step_3_set_up_the_sample
-        //
-        // Authorize using one of the following scopes:
-        //   "https://www.googleapis.com/auth/drive"
-        //   "https://www.googleapis.com/auth/drive.file"
-        //   "https://www.googleapis.com/auth/spreadsheets"
-        GoogleCredential credential = null;
-
-        return new Sheets.Builder(httpTransport, jsonFactory, credential)
-                .setApplicationName("Google-SheetsSample/0.1")
-                .build();
-    }
+//    public static Sheets createSheetsService() throws IOException, GeneralSecurityException {
+//        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+//        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+//
+//        // TODO: Change placeholder below to generate authentication credentials. See
+//        // https://developers.google.com/sheets/quickstart/java#step_3_set_up_the_sample
+//        //
+//        // Authorize using one of the following scopes:
+//        //   "https://www.googleapis.com/auth/drive"
+//        //   "https://www.googleapis.com/auth/drive.file"
+//        //   "https://www.googleapis.com/auth/spreadsheets"
+//        GoogleCredential credential = null;
+//
+//        return new Sheets.Builder(httpTransport, jsonFactory, credential)
+//                .setApplicationName("Google-SheetsSample/0.1")
+//                .build();
+//    }
 
     @Override
     protected void onPreExecute() {
         //mOutputText.setText("");
-        //mProgress.show();
+        mProgress.show();
     }
 
     @Override
@@ -172,14 +180,29 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
         if (mLastError != null) {
             if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
                 // show google dialog
-                //showGooglePlayServicesAvailabilityErrorDialog(((GooglePlayServicesAvailabilityIOException) mLastError).getConnectionStatusCode());
+                showGooglePlayServicesAvailabilityErrorDialog(((GooglePlayServicesAvailabilityIOException) mLastError).getConnectionStatusCode());
             } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                //startActivityForResult(((UserRecoverableAuthIOException) mLastError).getIntent(),MainActivity.REQUEST_AUTHORIZATION);
+                startActivityForResult(activity, ((UserRecoverableAuthIOException) mLastError).getIntent(), MainActivity.REQUEST_AUTHORIZATION, null);
             } else {
                 mOutputText.setText("The following error occurred:\n" + mLastError.getMessage());
             }
         } else {
             mOutputText.setText("Request cancelled.");
         }
+    }
+    /**
+     * Display an error dialog showing that Google Play Services is missing
+     * or out of date.
+     * @param connectionStatusCode code describing the presence (or lack of)
+     *     Google Play Services on this device.
+     */
+    void showGooglePlayServicesAvailabilityErrorDialog(
+            final int connectionStatusCode) {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        Dialog dialog = apiAvailability.getErrorDialog(
+                activity,
+                connectionStatusCode,
+                MainActivity.REQUEST_GOOGLE_PLAY_SERVICES);
+        dialog.show();
     }
 }

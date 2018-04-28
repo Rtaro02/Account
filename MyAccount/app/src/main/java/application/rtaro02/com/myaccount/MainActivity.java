@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,7 +18,9 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import application.rtaro02.com.myaccount.model.DefaultRequest;
@@ -34,8 +35,8 @@ public class MainActivity extends GoogleAPIActivity
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    static public final int REQUEST_AUTHORIZATION = 1001;
+    static public final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
@@ -53,7 +54,10 @@ public class MainActivity extends GoogleAPIActivity
         mProgress.setMessage("Calling Google Sheets API ...");
 
         setContentView(R.layout.activity_main);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        EditText editText = findViewById(R.id.buyDate);
+        editText.setText(sdf.format(date));
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -65,16 +69,8 @@ public class MainActivity extends GoogleAPIActivity
     private class UpdateClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            readValue();
             getResultsFromApi();
         }
-    }
-
-    private void readValue() {
-        LayoutInflater inflater=this.getLayoutInflater();
-        View view=inflater.inflate(R.layout.content_main, null);
-        EditText editText = findViewById(R.id.buyDate);
-        System.out.println(editText.getText().toString());
     }
 
     /**
@@ -86,17 +82,22 @@ public class MainActivity extends GoogleAPIActivity
      */
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
+            System.out.println("いけるで！Googleサービス");
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
+            System.out.println("アカウントやで、、、");
             chooseAccount();
         } else if (! isDeviceOnline()) {
+            System.out.println("オフラインやで、、、");
             mOutputText.setText("No network connection available.");
         } else {
+            System.out.println("ぜんぶおｋ");
             DefaultRequest dr = new DefaultRequest();
             setRequestData(dr);
             MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
             makeRequestTask.setMOutputText(mOutputText);
             makeRequestTask.setMProgress(mProgress);
+            makeRequestTask.setMainActivity(this);
             makeRequestTask.execute();
         }
     }
@@ -128,6 +129,9 @@ public class MainActivity extends GoogleAPIActivity
             dr.setTypeOfPayment(typeOfPaymentStr);
             dr.setSuicaPayFlg(false);
         }
+        // 概要の設定
+        EditText priceText = findViewById(R.id.price);
+        dr.setPrice(Integer.parseInt(priceText.getText().toString()));
         // 概要の設定
         EditText overviewText = findViewById(R.id.overview);
         dr.setOverview((overviewText.getText().toString()));
