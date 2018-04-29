@@ -28,7 +28,7 @@ import application.rtaro02.com.myaccount.request.MakeRequestTasks;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends GoogleAPIActivity
+public class SendSheetActivity extends GoogleAPIActivity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;

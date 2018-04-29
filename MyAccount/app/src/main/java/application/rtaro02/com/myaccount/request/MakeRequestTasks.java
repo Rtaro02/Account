@@ -27,7 +27,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.rtaro02.com.myaccount.MainActivity;
+import application.rtaro02.com.myaccount.SendSheetActivity;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
@@ -182,7 +182,7 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
                 // show google dialog
                 showGooglePlayServicesAvailabilityErrorDialog(((GooglePlayServicesAvailabilityIOException) mLastError).getConnectionStatusCode());
             } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                startActivityForResult(activity, ((UserRecoverableAuthIOException) mLastError).getIntent(), MainActivity.REQUEST_AUTHORIZATION, null);
+                startActivityForResult(activity, ((UserRecoverableAuthIOException) mLastError).getIntent(), SendSheetActivity.REQUEST_AUTHORIZATION, null);
             } else {
                 mOutputText.setText("The following error occurred:\n" + mLastError.getMessage());
             }
@@ -202,7 +202,7 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
         Dialog dialog = apiAvailability.getErrorDialog(
                 activity,
                 connectionStatusCode,
-                MainActivity.REQUEST_GOOGLE_PLAY_SERVICES);
+                SendSheetActivity.REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
     }
 }
