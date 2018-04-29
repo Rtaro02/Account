@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="application.rtaro02.com.myaccount.SendSheetActivity">
+    tools:context="application.rtaro02.com.myaccount.InputSheetInfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_input_sheet_info"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -53,7 +53,7 @@ public class SendSheetActivity extends GoogleAPIActivity
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Sheets API ...");
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_send_sheet);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         EditText editText = findViewById(R.id.buyDate);
