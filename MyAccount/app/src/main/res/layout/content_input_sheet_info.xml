@@ -17,33 +17,33 @@
         tools:layout_editor_absoluteY="16dp">
 
         <TextView
-            android:id="@+id/spreadsheetId"
+            android:id="@+id/spreadsheetIdText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SpreadsheetId" />
 
         <EditText
-            android:id="@+id/spreadsheetIdInput"
+            android:id="@+id/spreadsheetId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"/>
 
         <TextView
-            android:id="@+id/sheetId"
+            android:id="@+id/sheetIdText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="sheetId" />
 
         <EditText
-            android:id="@+id/sheetIdInput"
+            android:id="@+id/sheetId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/inputSheetInfoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Button" />
