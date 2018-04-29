@@ -29,6 +29,7 @@ import java.util.List;
 
 import application.rtaro02.com.myaccount.SendSheetActivity;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
+import application.rtaro02.com.myaccount.model.SheetInfo;
 
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
@@ -44,8 +45,8 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     private TextView mOutputText;
     private ProgressDialog mProgress;
     private DefaultRequest dr;
-    private String spreadsheetId = "1pBkvc6FJ-7f0lBlq55p_qT-UqBMe1RrehRMPMGFb6xQ";
-    private int sheetId = 424497227;
+    private String spreadsheetId;
+    private int sheetId;
     private Activity activity;
 
     private MakeRequestTasks(){}
@@ -53,6 +54,9 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
     public MakeRequestTasks(GoogleAccountCredential credential, DefaultRequest dr) {
         this.dr = dr;
         this.mCredential = credential;
+        spreadsheetId = SheetInfo.getInstance().getSpreadsheetId();
+        sheetId = SheetInfo.getInstance().getSheetId();
+
         HttpTransport transport = AndroidHttp.newCompatibleTransport();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         mService = new com.google.api.services.sheets.v4.Sheets.Builder(

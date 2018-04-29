@@ -107,7 +107,8 @@ public class SendSheetActivity extends GoogleAPIActivity
         dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
         // 購買日の設定
         EditText editText = findViewById(R.id.buyDate);
-        dr.setBuyDate((editText.getText().toString()));
+        String buyDate = editText.getText().toString();
+        dr.setBuyDate(editText.getText().toString());
         // 収支分類の取得
         Spinner typeOfBuy = findViewById(R.id.typeOfBuy);
         String typeOfBuyStr = typeOfBuy.getSelectedItem().toString();
