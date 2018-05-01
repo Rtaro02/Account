@@ -39,7 +39,7 @@ public class DefaultRequest {
     /**
      * 支払い金額
      */
-    private int price;
+    private Integer price;
 
     /**
      * 概要
@@ -95,11 +95,11 @@ public class DefaultRequest {
         this.suicaPayFlg = suicaPayFlg;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

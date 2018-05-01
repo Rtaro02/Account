@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.util.ExponentialBackOff;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import application.rtaro02.com.myaccount.exception.NoInputException;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -93,49 +95,88 @@ public class SendSheetActivity extends GoogleAPIActivity
         } else {
             System.out.println("ぜんぶおｋ");
             DefaultRequest dr = new DefaultRequest();
-            setRequestData(dr);
-            MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
-            makeRequestTask.setMOutputText(mOutputText);
-            makeRequestTask.setMProgress(mProgress);
-            makeRequestTask.setMainActivity(this);
-            makeRequestTask.execute();
+            try {
+                setRequestData(dr);
+                MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
+                makeRequestTask.setMOutputText(mOutputText);
+                makeRequestTask.setMProgress(mProgress);
+                makeRequestTask.setMainActivity(this);
+                makeRequestTask.execute();
+            } catch(NumberFormatException e) {
+                Toast.makeText(this, "Price should be number", Toast.LENGTH_SHORT).show();
+            } catch(NoInputException e) {
+                Toast.makeText(this, "All Params sholud be set.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    private void setRequestData(DefaultRequest dr){
-        // タイムスタンプの設定
-        dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
-        // 購買日の設定
+    private void setRequestData(DefaultRequest dr) throws NumberFormatException, NoInputException{
+        // 購買日の取得
         EditText editText = findViewById(R.id.buyDate);
         String buyDate = editText.getText().toString();
-        dr.setBuyDate(editText.getText().toString());
         // 収支分類の取得
         Spinner typeOfBuy = findViewById(R.id.typeOfBuy);
         String typeOfBuyStr = typeOfBuy.getSelectedItem().toString();
-        // 収入or支出の設定
-        if(isIncome(typeOfBuyStr)){
-            dr.setIncomeOrPayment("収入");
-        } else {
-            dr.setIncomeOrPayment("支出");
-        }
-        // 収支分類の設定
-        dr.setTypeOfBuy(typeOfBuyStr);
         // 支払い分類の取得
         Spinner typeOfPayment = findViewById(R.id.typeOfPayment);
         String typeOfPaymentStr = typeOfPayment.getSelectedItem().toString();
-        if(typeOfPaymentStr.equals("スイカ")) {
-            dr.setTypeOfPayment("現金等のカード以外");
-            dr.setSuicaPayFlg(true);
-        } else {
-            dr.setTypeOfPayment(typeOfPaymentStr);
-            dr.setSuicaPayFlg(false);
-        }
-        // 概要の設定
-        EditText priceText = findViewById(R.id.price);
-        dr.setPrice(Integer.parseInt(priceText.getText().toString()));
-        // 概要の設定
+        // 概要の取得
         EditText overviewText = findViewById(R.id.overview);
-        dr.setOverview((overviewText.getText().toString()));
+        String overviewStr = overviewText.getText().toString();
+        // 金額の取得
+        EditText priceText = findViewById(R.id.price);
+        String priceStr = priceText.getText().toString();
+        if(isAllParamSet(buyDate,
+                typeOfBuyStr,
+                typeOfPaymentStr,
+                overviewStr,
+                priceStr)) {
+            // タイムスタンプの設定
+            dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
+            dr.setBuyDate(buyDate);
+            // 収入or支出の設定
+            if(isIncome(typeOfBuyStr)){
+                dr.setIncomeOrPayment("収入");
+            } else {
+                dr.setIncomeOrPayment("支出");
+            }
+            // 収支分類の設定
+            dr.setTypeOfBuy(typeOfBuyStr);
+            if(typeOfPaymentStr.equals("スイカ")) {
+                dr.setTypeOfPayment("現金等のカード以外");
+                dr.setSuicaPayFlg(true);
+            } else {
+                dr.setTypeOfPayment(typeOfPaymentStr);
+                dr.setSuicaPayFlg(false);
+            }
+            dr.setOverview(overviewStr);
+            dr.setPrice(Integer.parseInt(priceStr));
+        } else {
+            throw new NoInputException();
+        }
+    }
+
+    private boolean isAllParamSet(String buyDate,
+                                  String typeOfBuyStr,
+                                  String typeOfPaymentStr,
+                                  String overview,
+                                  String priceStr) {
+        if(buyDate.isEmpty()) {
+            return false;
+        }
+        if(typeOfBuyStr.isEmpty()) {
+            return false;
+        }
+        if(typeOfPaymentStr.isEmpty()) {
+            return false;
+        }
+        if(overview.isEmpty()) {
+            return false;
+        }
+        if(priceStr.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     private boolean isIncome(String typeOfBuy){
