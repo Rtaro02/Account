@@ -95,10 +95,16 @@
             android:inputType="text" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/sendSheetButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Send" />
+
+        <Button
+            android:id="@+id/move2favorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Favorite" />
 
     </LinearLayout>
 

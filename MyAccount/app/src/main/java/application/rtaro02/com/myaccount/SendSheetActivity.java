@@ -65,7 +65,7 @@ public class SendSheetActivity extends GoogleAPIActivity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        findViewById(R.id.button2).setOnClickListener(new UpdateClickListener());
+        findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
     }
 
     private class UpdateClickListener implements View.OnClickListener {
