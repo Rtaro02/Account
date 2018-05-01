@@ -101,10 +101,16 @@
             android:text="Send" />
 
         <Button
+            android:id="@+id/add2favorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add to Favorite" />
+
+        <Button
             android:id="@+id/move2favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Favorite" />
+            android:text="Favorite List" />
 
     </LinearLayout>
 

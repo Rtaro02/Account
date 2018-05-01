@@ -66,6 +66,7 @@ public class SendSheetActivity extends GoogleAPIActivity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
+        findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener());
         findViewById(R.id.move2favorite).setOnClickListener(new Move2FavoriteListener(this));
     }
 
@@ -87,6 +88,15 @@ public class SendSheetActivity extends GoogleAPIActivity
         @Override
         public void onClick(View view) {
             getResultsFromApi();
+        }
+    }
+
+    private class AddFavoriteClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
+            SharedPreferences data = getSharedPreferences("SpreadData", Context.MODE_PRIVATE);
+            String spreadsheetId = data.getString("SpreadsheetId", "");
         }
     }
 
