@@ -66,6 +66,21 @@ public class SendSheetActivity extends GoogleAPIActivity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
+        findViewById(R.id.move2favorite).setOnClickListener(new Move2FavoriteListener(this));
+    }
+
+    private class Move2FavoriteListener implements View.OnClickListener {
+        SendSheetActivity sendSheetActivity;
+
+        Move2FavoriteListener(SendSheetActivity sendSheetActivity){
+            this.sendSheetActivity = sendSheetActivity;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(sendSheetActivity, FavoriteListActivity.class);
+            startActivity(intent);
+        }
     }
 
     private class UpdateClickListener implements View.OnClickListener {
