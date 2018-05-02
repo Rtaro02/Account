@@ -9,13 +9,14 @@
     tools:showIn="@layout/activity_input_sheet_info"
     tools:context="application.rtaro02.com.myaccount.FavoriteListActivity">
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/favorite_list"
         android:layout_width="368dp"
         android:layout_height="487dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="16dp">
-    </LinearLayout>
+    </ListView>
 
 </android.support.constraint.ConstraintLayout>
 

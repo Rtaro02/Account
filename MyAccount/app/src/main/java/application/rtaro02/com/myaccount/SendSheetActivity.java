@@ -3,6 +3,7 @@ package application.rtaro02.com.myaccount;
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,12 +21,14 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import application.rtaro02.com.myaccount.exception.NoInputException;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
+import application.rtaro02.com.myaccount.model.PurchasingData;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -41,6 +44,8 @@ public class SendSheetActivity extends GoogleAPIActivity
     static public final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
+    final String DATE_FORMAT = "yyyy/MM/dd";
+
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS };
 
@@ -54,22 +59,70 @@ public class SendSheetActivity extends GoogleAPIActivity
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Sheets API ...");
-
         setContentView(R.layout.activity_send_sheet);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Date date = new Date();
-        EditText editText = findViewById(R.id.buyDate);
-        editText.setText(sdf.format(date));
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            Integer uid = bundle.getInt("uid");
+            final ArrayList<String> data = new ArrayList<>();
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name")
+                    .allowMainThreadQueries()
+                    .build();
+            List<PurchasingData> purchasingDataList = db.getPurchasingDataDao().loadData(uid);
+            PurchasingData purchasingData = purchasingDataList.get(0);
+            int buyPosition = getArrayPosition(purchasingData.getTypeOfBuy(), R.array.buy);
+            int paymentPosition = getArrayPosition(purchasingData.getTypeOfPayment(), R.array.payment);
+
+            // 収支分類の取得
+            Spinner typeOfBuy = findViewById(R.id.typeOfBuy);
+            typeOfBuy.setSelection(buyPosition);
+            // 支払い分類の取得
+            Spinner typeOfPayment = findViewById(R.id.typeOfPayment);
+            typeOfPayment.setSelection(paymentPosition);
+            // 概要の取得
+            EditText overviewText = findViewById(R.id.overview);
+            overviewText.setText(purchasingData.getOverview());
+            // 金額の取得
+            EditText priceText = findViewById(R.id.price);
+            priceText.setText(purchasingData.getPrice().toString());
+        }
+
+        // デフォルトの購買日を設定する
+        setDefaultBuyDate();
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
+        // Listenerを設定する
         findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
         findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener());
         findViewById(R.id.move2favorite).setOnClickListener(new Move2FavoriteListener(this));
     }
 
+    private int getArrayPosition(String target, int id) {
+        String[] array = getResources().getStringArray(id);
+        int i = 0;
+        for(String x: array) {
+            if(x.equals(target)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    // デフォルトの購買日を設定する
+    private void setDefaultBuyDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        Date date = new Date();
+        EditText editText = findViewById(R.id.buyDate);
+        editText.setText(sdf.format(date));
+    }
+
+    // FavoriteListへ移動する為のListener
     private class Move2FavoriteListener implements View.OnClickListener {
         SendSheetActivity sendSheetActivity;
 
@@ -92,11 +145,26 @@ public class SendSheetActivity extends GoogleAPIActivity
     }
 
     private class AddFavoriteClickListener implements View.OnClickListener {
-        @Override
         public void onClick(View view) {
-
-            SharedPreferences data = getSharedPreferences("SpreadData", Context.MODE_PRIVATE);
-            String spreadsheetId = data.getString("SpreadsheetId", "");
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    AppDatabase.class, "database-name")
+                    .allowMainThreadQueries()
+                    .build();
+            PurchasingData x = new PurchasingData();
+            DefaultRequest dr = new DefaultRequest();
+            try {
+                setRequestData(dr);
+                x.setOverview(dr.getOverview());
+                x.setPrice(dr.getPrice());
+                x.setTypeOfBuy(dr.getTypeOfBuy());
+                x.setTypeOfPayment(dr.getTypeOfPayment());
+                db.getPurchasingDataDao().insertAll(x);
+                Toast.makeText(getApplicationContext(), "Add to favorite list!!", Toast.LENGTH_SHORT).show();
+            } catch(NumberFormatException e) {
+                Toast.makeText(getApplicationContext(), "Price should be number", Toast.LENGTH_SHORT).show();
+            } catch(NoInputException e) {
+                Toast.makeText(getApplicationContext(), "All Params should be set.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
