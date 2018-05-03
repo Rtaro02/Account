@@ -101,12 +101,7 @@ public class FavoriteListActivity extends Activity {
             alertDialogBuilder.setTitle("DELETE?");
             alertDialogBuilder.setMessage("Do you delete this item?");
             alertDialogBuilder.setPositiveButton("Yes", new RespondYesListener(uid, adapter));
-            alertDialogBuilder.setNegativeButton("No",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
+            alertDialogBuilder.setNegativeButton("No",new RespondNoListener());
             alertDialogBuilder.setCancelable(true);
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
@@ -136,6 +131,14 @@ public class FavoriteListActivity extends Activity {
             adapter.clear();
             adapter.addAll(makeListViewData());
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    private class RespondNoListener implements DialogInterface.OnClickListener {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            // Do nothing
         }
     }
 }

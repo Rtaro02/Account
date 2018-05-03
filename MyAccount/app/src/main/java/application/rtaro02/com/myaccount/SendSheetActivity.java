@@ -30,6 +30,7 @@ import application.rtaro02.com.myaccount.exception.NoInputException;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.PurchasingData;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
+import application.rtaro02.com.myaccount.util.Util;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -200,26 +201,18 @@ public class SendSheetActivity extends GoogleAPIActivity
         }
     }
 
-    private String getEditTextString(int id) {
-        return ((EditText)findViewById(id)).getText().toString();
-    }
-
-    private String getSpinnerString(int id) {
-        return ((Spinner)findViewById(id)).getSelectedItem().toString();
-    }
-
     private void setRequestData(DefaultRequest dr) throws NumberFormatException, NoInputException{
         // 購買日の取得
-        String buyDate = getEditTextString(R.id.buyDate);
+        String buyDate = Util.getInstance().getEditTextString(this, R.id.buyDate);
         // 収支分類の取得
-        String typeOfBuyStr = getSpinnerString(R.id.typeOfBuy);
+        String typeOfBuyStr = Util.getInstance().getSpinnerString(this, R.id.typeOfBuy);
         // 支払い分類の取得
-        String typeOfPaymentStr = getSpinnerString(R.id.typeOfPayment);
+        String typeOfPaymentStr = Util.getInstance().getSpinnerString(this, R.id.typeOfPayment);
         // 概要の取得
-        String overviewStr = getEditTextString(R.id.overview);
+        String overviewStr = Util.getInstance().getEditTextString(this, R.id.overview);
         // 金額の取得
-        String priceStr = getEditTextString(R.id.price);
-        if(isAllParamSet(buyDate,
+        String priceStr = Util.getInstance().getEditTextString(this, R.id.price);
+        if(Util.getInstance().isAllParamSet(buyDate,
                 typeOfBuyStr,
                 typeOfPaymentStr,
                 overviewStr,
@@ -247,13 +240,6 @@ public class SendSheetActivity extends GoogleAPIActivity
         } else {
             throw new NoInputException();
         }
-    }
-
-    private boolean isAllParamSet(String... targets) {
-        for(String target: targets) {
-            if(target.isEmpty()) return false;
-        }
-        return true;
     }
 
     private boolean isIncome(String typeOfBuy){
