@@ -235,7 +235,7 @@ public class SendSheetActivity extends GoogleAPIActivity
             }
             // 収支分類の設定
             dr.setTypeOfBuy(typeOfBuyStr);
-            if(typeOfPaymentStr.equals("スイカ")) {
+            if(typeOfPaymentStr.equals("交通系マネーでの支払い")) {
                 dr.setTypeOfPayment("現金等のカード以外");
                 dr.setSuicaPayFlg(true);
             } else {
@@ -249,25 +249,9 @@ public class SendSheetActivity extends GoogleAPIActivity
         }
     }
 
-    private boolean isAllParamSet(String buyDate,
-                                  String typeOfBuyStr,
-                                  String typeOfPaymentStr,
-                                  String overview,
-                                  String priceStr) {
-        if(buyDate.isEmpty()) {
-            return false;
-        }
-        if(typeOfBuyStr.isEmpty()) {
-            return false;
-        }
-        if(typeOfPaymentStr.isEmpty()) {
-            return false;
-        }
-        if(overview.isEmpty()) {
-            return false;
-        }
-        if(priceStr.isEmpty()) {
-            return false;
+    private boolean isAllParamSet(String... targets) {
+        for(String target: targets) {
+            if(target.isEmpty()) return false;
         }
         return true;
     }
