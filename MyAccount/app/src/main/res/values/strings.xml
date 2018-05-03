@@ -13,8 +13,8 @@
         <item>固定費</item>
     </string-array>
     <string-array name="payment">
-        <item>現金等のカード以外</item>
         <item>三井住友</item>
+        <item>現金等のカード以外</item>
         <item>AMEX</item>
         <item>Orico</item>
         <item>Pasmo</item>

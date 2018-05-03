@@ -65,6 +65,7 @@ public class SendSheetActivity extends GoogleAPIActivity
         if(bundle != null) {
             Integer uid = bundle.getInt("uid");
             final ArrayList<String> data = new ArrayList<>();
+
             AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                     AppDatabase.class, "database-name")
                     .allowMainThreadQueries()
@@ -74,18 +75,14 @@ public class SendSheetActivity extends GoogleAPIActivity
             int buyPosition = getArrayPosition(purchasingData.getTypeOfBuy(), R.array.buy);
             int paymentPosition = getArrayPosition(purchasingData.getTypeOfPayment(), R.array.payment);
 
-            // 収支分類の取得
-            Spinner typeOfBuy = findViewById(R.id.typeOfBuy);
-            typeOfBuy.setSelection(buyPosition);
-            // 支払い分類の取得
-            Spinner typeOfPayment = findViewById(R.id.typeOfPayment);
-            typeOfPayment.setSelection(paymentPosition);
-            // 概要の取得
-            EditText overviewText = findViewById(R.id.overview);
-            overviewText.setText(purchasingData.getOverview());
-            // 金額の取得
-            EditText priceText = findViewById(R.id.price);
-            priceText.setText(purchasingData.getPrice().toString());
+            // 収支分類の設定
+            ((Spinner)findViewById(R.id.typeOfBuy)).setSelection(buyPosition);
+            // 支払い分類の設定
+            ((Spinner)findViewById(R.id.typeOfPayment)).setSelection(paymentPosition);
+            // 概要の設定
+            ((EditText)findViewById(R.id.overview)).setText(purchasingData.getOverview());
+            // 金額の設定
+            ((EditText)findViewById(R.id.price)).setText(purchasingData.getPrice());
         }
 
         // デフォルトの購買日を設定する
@@ -203,22 +200,25 @@ public class SendSheetActivity extends GoogleAPIActivity
         }
     }
 
+    private String getEditTextString(int id) {
+        return ((EditText)findViewById(id)).getText().toString();
+    }
+
+    private String getSpinnerString(int id) {
+        return ((Spinner)findViewById(id)).getSelectedItem().toString();
+    }
+
     private void setRequestData(DefaultRequest dr) throws NumberFormatException, NoInputException{
         // 購買日の取得
-        EditText editText = findViewById(R.id.buyDate);
-        String buyDate = editText.getText().toString();
+        String buyDate = getEditTextString(R.id.buyDate);
         // 収支分類の取得
-        Spinner typeOfBuy = findViewById(R.id.typeOfBuy);
-        String typeOfBuyStr = typeOfBuy.getSelectedItem().toString();
+        String typeOfBuyStr = getSpinnerString(R.id.typeOfBuy);
         // 支払い分類の取得
-        Spinner typeOfPayment = findViewById(R.id.typeOfPayment);
-        String typeOfPaymentStr = typeOfPayment.getSelectedItem().toString();
+        String typeOfPaymentStr = getSpinnerString(R.id.typeOfPayment);
         // 概要の取得
-        EditText overviewText = findViewById(R.id.overview);
-        String overviewStr = overviewText.getText().toString();
+        String overviewStr = getEditTextString(R.id.overview);
         // 金額の取得
-        EditText priceText = findViewById(R.id.price);
-        String priceStr = priceText.getText().toString();
+        String priceStr = getEditTextString(R.id.price);
         if(isAllParamSet(buyDate,
                 typeOfBuyStr,
                 typeOfPaymentStr,
