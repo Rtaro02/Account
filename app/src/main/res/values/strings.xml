@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">MyAccount</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="buy">
+        <item>食べ物関連</item>
+        <item>交際費</item>
+        <item>アイドル</item>
+        <item>交通費</item>
+        <item>必要経費</item>
+        <item>雑貨費</item>
+        <item>現金下す</item>
+        <item>収入</item>
+        <item>固定費</item>
+    </string-array>
+    <string-array name="payment">
+        <item>三井住友</item>
+        <item>現金等のカード以外</item>
+        <item>AMEX</item>
+        <item>Orico</item>
+        <item>Pasmo</item>
+        <item>ヨドバシ</item>
+        <item>引き落とし</item>
+        <item>交通系マネーでの支払い</item>
+    </string-array>
+</resources>
