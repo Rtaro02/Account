@@ -34,6 +34,9 @@ import application.rtaro02.com.myaccount.util.Util;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+/**
+ * The objective of this class is sending purchase information to google spreadshjeet.
+ */
 public class SendSheetActivity extends GoogleAPIActivity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
@@ -212,38 +215,16 @@ public class SendSheetActivity extends GoogleAPIActivity
         String overviewStr = Util.getInstance().getEditTextString(this, R.id.overview);
         // 金額の取得
         String priceStr = Util.getInstance().getEditTextString(this, R.id.price);
-        if(Util.getInstance().isAllParamSet(buyDate,
-                typeOfBuyStr,
-                typeOfPaymentStr,
-                overviewStr,
-                priceStr)) {
-            // タイムスタンプの設定
+        if(Util.getInstance().isAllParamSet(buyDate, typeOfBuyStr, typeOfPaymentStr, overviewStr, priceStr)) {
             dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
             dr.setBuyDate(buyDate);
-            // 収入or支出の設定
-            if(isIncome(typeOfBuyStr)){
-                dr.setIncomeOrPayment("収入");
-            } else {
-                dr.setIncomeOrPayment("支出");
-            }
-            // 収支分類の設定
             dr.setTypeOfBuy(typeOfBuyStr);
-            if(typeOfPaymentStr.equals("交通系マネーでの支払い")) {
-                dr.setTypeOfPayment("現金等のカード以外");
-                dr.setSuicaPayFlg(true);
-            } else {
-                dr.setTypeOfPayment(typeOfPaymentStr);
-                dr.setSuicaPayFlg(false);
-            }
+            dr.setTypeOfPayment(typeOfPaymentStr);
             dr.setOverview(overviewStr);
             dr.setPrice(Integer.parseInt(priceStr));
         } else {
             throw new NoInputException();
         }
-    }
-
-    private boolean isIncome(String typeOfBuy){
-        return typeOfBuy.equals("現金下す") || typeOfBuy.equals("収入");
     }
 
     /**

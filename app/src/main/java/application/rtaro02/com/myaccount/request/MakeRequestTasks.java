@@ -104,10 +104,8 @@ public class MakeRequestTasks extends AsyncTask<Void, Void, Void> {
         List col = new ArrayList<>();
         col.add(dr.getTimestamp());
         col.add(dr.getBuyDate());
-        col.add(dr.getIncomeOrPayment());
         col.add(dr.getTypeOfBuy());
         col.add(dr.getTypeOfPayment());
-        col.add(dr.isSuicaPayFlg());
         col.add(dr.getPrice());
         col.add(dr.getOverview());
         row.add(col);
