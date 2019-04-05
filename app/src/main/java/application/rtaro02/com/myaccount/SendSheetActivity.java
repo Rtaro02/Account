@@ -86,7 +86,7 @@ public class SendSheetActivity extends GoogleAPIActivity
             // 概要の設定
             ((EditText)findViewById(R.id.overview)).setText(purchasingData.getOverview());
             // 金額の設定
-            ((EditText)findViewById(R.id.price)).setText(purchasingData.getPrice());
+            ((EditText)findViewById(R.id.price)).setText(purchasingData.getPrice().toString());
         }
 
         // デフォルトの購買日を設定する
