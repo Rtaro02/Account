@@ -24,6 +24,11 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
+            android:name=".AddSheetInfoActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name="InputSheetInfoActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >

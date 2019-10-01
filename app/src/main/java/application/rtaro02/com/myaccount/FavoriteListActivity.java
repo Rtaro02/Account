@@ -38,6 +38,8 @@ public class FavoriteListActivity extends Activity {
         list.setOnItemLongClickListener(new FavoriteLongClickListener(this, adapter));
     }
 
+
+
     private ArrayList<String> makeListViewData() {
         final ArrayList<String> data = new ArrayList<>();
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
