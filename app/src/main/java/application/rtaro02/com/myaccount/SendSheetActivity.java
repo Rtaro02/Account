@@ -19,7 +19,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,11 +26,11 @@ import java.util.Date;
 import java.util.List;
 
 import application.rtaro02.com.myaccount.exception.NoInputException;
+import application.rtaro02.com.myaccount.listener.AddFavoriteClickListener;
 import application.rtaro02.com.myaccount.listener.Move2FavoriteListener;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.PurchasingData;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
-import application.rtaro02.com.myaccount.util.Util;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -100,7 +99,7 @@ public class SendSheetActivity extends GoogleAPIActivity
 
         // Listenerを設定する
         findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
-        findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener());
+        findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener(this));
         findViewById(R.id.move2favorite).setOnClickListener(new Move2FavoriteListener(this));
     }
 
@@ -131,30 +130,6 @@ public class SendSheetActivity extends GoogleAPIActivity
         }
     }
 
-    private class AddFavoriteClickListener implements View.OnClickListener {
-        public void onClick(View view) {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name")
-                    .allowMainThreadQueries()
-                    .build();
-            PurchasingData x = new PurchasingData();
-            DefaultRequest dr = new DefaultRequest();
-            try {
-                setRequestData(dr);
-                x.setOverview(dr.getOverview());
-                x.setPrice(dr.getPrice());
-                x.setTypeOfBuy(dr.getTypeOfBuy());
-                x.setTypeOfPayment(dr.getTypeOfPayment());
-                db.getPurchasingDataDao().insertAll(x);
-                Toast.makeText(getApplicationContext(), "Add to favorite list!!", Toast.LENGTH_SHORT).show();
-            } catch(NumberFormatException e) {
-                Toast.makeText(getApplicationContext(), "Price should be number", Toast.LENGTH_SHORT).show();
-            } catch(NoInputException e) {
-                Toast.makeText(getApplicationContext(), "All Params should be set.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     /**
      * Attempt to call the API, after verifying that all the preconditions are
      * satisfied. The preconditions are: Google Play Services installed, an
@@ -176,7 +151,7 @@ public class SendSheetActivity extends GoogleAPIActivity
             System.out.println("ぜんぶおｋ");
             DefaultRequest dr = new DefaultRequest();
             try {
-                setRequestData(dr);
+                dr.setRequestData(this);
                 MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
                 makeRequestTask.setMOutputText(mOutputText);
                 makeRequestTask.setMProgress(mProgress);
@@ -187,29 +162,6 @@ public class SendSheetActivity extends GoogleAPIActivity
             } catch(NoInputException e) {
                 Toast.makeText(this, "All Params sholud be set.", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private void setRequestData(DefaultRequest dr) throws NumberFormatException, NoInputException{
-        // 購買日の取得
-        String buyDate = Util.getInstance().getEditTextString(this, R.id.buyDate);
-        // 収支分類の取得
-        String typeOfBuyStr = Util.getInstance().getSpinnerString(this, R.id.typeOfBuy);
-        // 支払い分類の取得
-        String typeOfPaymentStr = Util.getInstance().getSpinnerString(this, R.id.typeOfPayment);
-        // 概要の取得
-        String overviewStr = Util.getInstance().getEditTextString(this, R.id.overview);
-        // 金額の取得
-        String priceStr = Util.getInstance().getEditTextString(this, R.id.price);
-        if(Util.getInstance().isAllParamSet(buyDate, typeOfBuyStr, typeOfPaymentStr, overviewStr, priceStr)) {
-            dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
-            dr.setBuyDate(buyDate);
-            dr.setTypeOfBuy(typeOfBuyStr);
-            dr.setTypeOfPayment(typeOfPaymentStr);
-            dr.setOverview(overviewStr);
-            dr.setPrice(Integer.parseInt(priceStr));
-        } else {
-            throw new NoInputException();
         }
     }
 
