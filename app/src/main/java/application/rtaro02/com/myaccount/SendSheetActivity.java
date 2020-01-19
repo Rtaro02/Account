@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 import application.rtaro02.com.myaccount.exception.NoInputException;
+import application.rtaro02.com.myaccount.listener.Move2FavoriteListener;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.PurchasingData;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
@@ -121,21 +122,6 @@ public class SendSheetActivity extends GoogleAPIActivity
         Date date = new Date();
         EditText editText = findViewById(R.id.buyDate);
         editText.setText(sdf.format(date));
-    }
-
-    // FavoriteListへ移動する為のListener
-    private class Move2FavoriteListener implements View.OnClickListener {
-        SendSheetActivity sendSheetActivity;
-
-        Move2FavoriteListener(SendSheetActivity sendSheetActivity){
-            this.sendSheetActivity = sendSheetActivity;
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(sendSheetActivity, FavoriteListActivity.class);
-            startActivity(intent);
-        }
     }
 
     private class UpdateClickListener implements View.OnClickListener {
