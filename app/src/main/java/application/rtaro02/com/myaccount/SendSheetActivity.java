@@ -98,7 +98,7 @@ public class SendSheetActivity extends GoogleAPIActivity
                 .setBackOff(new ExponentialBackOff());
 
         // Listenerを設定する
-        findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
+        findViewById(R.id.sendSheetButton).setOnClickListener(new SendClickListener());
         findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener(this));
         findViewById(R.id.move2favorite).setOnClickListener(new Move2FavoriteListener(this));
     }
@@ -123,7 +123,7 @@ public class SendSheetActivity extends GoogleAPIActivity
         editText.setText(sdf.format(date));
     }
 
-    private class UpdateClickListener implements View.OnClickListener {
+    private class SendClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             getResultsFromApi();
@@ -138,13 +138,13 @@ public class SendSheetActivity extends GoogleAPIActivity
      * appropriate.
      */
     private void getResultsFromApi() {
-        if (! isGooglePlayServicesAvailable()) {
+        if (!isGooglePlayServicesAvailable()) {
             System.out.println("いけるで！Googleサービス");
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             System.out.println("アカウントやで、、、");
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        } else if (!isDeviceOnline()) {
             System.out.println("オフラインやで、、、");
             mOutputText.setText("No network connection available.");
         } else {
