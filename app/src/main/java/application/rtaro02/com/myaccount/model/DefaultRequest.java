@@ -1,5 +1,13 @@
 package application.rtaro02.com.myaccount.model;
 
+import android.app.Activity;
+
+import java.sql.Timestamp;
+
+import application.rtaro02.com.myaccount.R;
+import application.rtaro02.com.myaccount.exception.NoInputException;
+import application.rtaro02.com.myaccount.util.Util;
+
 /**
  * Created by ryotaro on 2018/04/22.
  */
@@ -7,107 +15,64 @@ package application.rtaro02.com.myaccount.model;
 public class DefaultRequest {
 
     /**
-     * 購買情報を登録した時間
+     * Timestamp of registration time
      */
     private String timestamp;
-
     /**
-     * 購入日
+     * The date of purchase
      */
     private String buyDate;
-
     /**
-     * 収支か支出かの分類
-     */
-    private String incomeOrPayment;
-
-    /**
-     * 収支分類
+     * The type of purchase
      */
     private String typeOfBuy;
-
     /**
-     * 支払い分類
+     * The type of payment
      */
     private String typeOfPayment;
-
     /**
-     * Suica支払いフラグ
-     */
-    private boolean suicaPayFlg;
-
-    /**
-     * 支払い金額
+     * Price
      */
     private Integer price;
-
     /**
-     * 概要
+     * Overview
      */
     private String overview;
 
+    public String getTypeOfBuy() { return typeOfBuy; }
+    public String getTimestamp() { return timestamp; }
+    public String getBuyDate() { return buyDate; }
+    public String getTypeOfPayment() { return typeOfPayment; }
+    public Integer getPrice() { return price; }
+    public String getOverview() { return overview; }
+    public void setTypeOfBuy(String typeOfBuy) { this.typeOfBuy = typeOfBuy; }
+    public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
+    public void setTypeOfPayment(String typeOfPayment) { this.typeOfPayment = typeOfPayment; }
+    public void setBuyDate(String buyDate) { this.buyDate = buyDate; }
+    public void setPrice(Integer price) { this.price = price; }
 
-    public String getTypeOfBuy() {
-        return typeOfBuy;
+
+    public void setRequestData(Activity activity) throws NumberFormatException, NoInputException {
+        // 購買日の取得
+        String buyDate = Util.getInstance().getEditTextString(activity, R.id.buyDate);
+        // 収支分類の取得
+        String typeOfBuyStr = Util.getInstance().getSpinnerString(activity, R.id.typeOfBuy);
+        // 支払い分類の取得
+        String typeOfPaymentStr = Util.getInstance().getSpinnerString(activity, R.id.typeOfPayment);
+        // 概要の取得
+        String overviewStr = Util.getInstance().getEditTextString(activity, R.id.overview);
+        // 金額の取得
+        String priceStr = Util.getInstance().getEditTextString(activity, R.id.price);
+        if(Util.getInstance().isAllParamSet(buyDate, typeOfBuyStr, typeOfPaymentStr, overviewStr, priceStr)) {
+            this.timestamp = new Timestamp(System.currentTimeMillis()).toString();
+            this.buyDate = buyDate;
+            this.typeOfBuy = typeOfBuyStr;
+            this.typeOfPayment = typeOfPaymentStr;
+            this.overview = overviewStr;
+            this.price = Integer.parseInt(priceStr);
+        } else {
+            throw new NoInputException();
+        }
     }
 
-    public void setTypeOfBuy(String typeOfBuy) {
-        this.typeOfBuy = typeOfBuy;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getBuyDate() {
-        return buyDate;
-    }
-
-    public void setBuyDate(String buyDate) {
-        this.buyDate = buyDate;
-    }
-
-    public String getIncomeOrPayment() {
-        return incomeOrPayment;
-    }
-
-    public void setIncomeOrPayment(String incomeOrPayment) {
-        this.incomeOrPayment = incomeOrPayment;
-    }
-
-    public String getTypeOfPayment() {
-        return typeOfPayment;
-    }
-
-    public void setTypeOfPayment(String typeOfPayment) {
-        this.typeOfPayment = typeOfPayment;
-    }
-
-    public boolean isSuicaPayFlg() {
-        return suicaPayFlg;
-    }
-
-    public void setSuicaPayFlg(boolean suicaPayFlg) {
-        this.suicaPayFlg = suicaPayFlg;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
 }

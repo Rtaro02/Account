@@ -41,36 +41,21 @@ public class PurchasingData {
     public void setUid(int uid) {
         this.uid = uid;
     }
-
     public String getTypeOfBuy() {
         return typeOfBuy;
     }
+    public String getTypeOfPayment() { return typeOfPayment; }
+    public Integer getPrice() { return price; }
+    public String getOverview() { return overview; }
+    public void setTypeOfBuy(String typeOfBuy) { this.typeOfBuy = typeOfBuy; }
+    public void setPrice(Integer price) { this.price = price; }
+    public void setTypeOfPayment(String typeOfPayment) { this.typeOfPayment = typeOfPayment; }
+    public void setOverview(String overview) { this.overview = overview; }
 
-    public void setTypeOfBuy(String typeOfBuy) {
-        this.typeOfBuy = typeOfBuy;
-    }
-
-    public String getTypeOfPayment() {
-        return typeOfPayment;
-    }
-
-    public void setTypeOfPayment(String typeOfPayment) {
-        this.typeOfPayment = typeOfPayment;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getOverview() {
-        return overview;
-    }
-
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setData(DefaultRequest defaultRequest) {
+        this.overview = defaultRequest.getOverview();
+        this.price = defaultRequest.getPrice();
+        this.typeOfBuy = defaultRequest.getTypeOfBuy();
+        this.typeOfPayment = defaultRequest.getTypeOfPayment();
     }
 }

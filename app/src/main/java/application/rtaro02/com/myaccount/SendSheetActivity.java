@@ -19,7 +19,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.sheets.v4.SheetsScopes;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,13 +26,17 @@ import java.util.Date;
 import java.util.List;
 
 import application.rtaro02.com.myaccount.exception.NoInputException;
+import application.rtaro02.com.myaccount.listener.AddFavoriteClickListener;
+import application.rtaro02.com.myaccount.listener.Move2FavoriteListener;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.PurchasingData;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
-import application.rtaro02.com.myaccount.util.Util;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+/**
+ * The objective of this class is sending purchase information to google spreadshjeet.
+ */
 public class SendSheetActivity extends GoogleAPIActivity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
@@ -83,7 +86,7 @@ public class SendSheetActivity extends GoogleAPIActivity
             // 概要の設定
             ((EditText)findViewById(R.id.overview)).setText(purchasingData.getOverview());
             // 金額の設定
-            ((EditText)findViewById(R.id.price)).setText(purchasingData.getPrice());
+            ((EditText)findViewById(R.id.price)).setText(purchasingData.getPrice().toString());
         }
 
         // デフォルトの購買日を設定する
@@ -95,8 +98,8 @@ public class SendSheetActivity extends GoogleAPIActivity
                 .setBackOff(new ExponentialBackOff());
 
         // Listenerを設定する
-        findViewById(R.id.sendSheetButton).setOnClickListener(new UpdateClickListener());
-        findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener());
+        findViewById(R.id.sendSheetButton).setOnClickListener(new SendClickListener());
+        findViewById(R.id.add2favorite).setOnClickListener(new AddFavoriteClickListener(this));
         findViewById(R.id.move2favorite).setOnClickListener(new Move2FavoriteListener(this));
     }
 
@@ -120,49 +123,10 @@ public class SendSheetActivity extends GoogleAPIActivity
         editText.setText(sdf.format(date));
     }
 
-    // FavoriteListへ移動する為のListener
-    private class Move2FavoriteListener implements View.OnClickListener {
-        SendSheetActivity sendSheetActivity;
-
-        Move2FavoriteListener(SendSheetActivity sendSheetActivity){
-            this.sendSheetActivity = sendSheetActivity;
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(sendSheetActivity, FavoriteListActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    private class UpdateClickListener implements View.OnClickListener {
+    private class SendClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             getResultsFromApi();
-        }
-    }
-
-    private class AddFavoriteClickListener implements View.OnClickListener {
-        public void onClick(View view) {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    AppDatabase.class, "database-name")
-                    .allowMainThreadQueries()
-                    .build();
-            PurchasingData x = new PurchasingData();
-            DefaultRequest dr = new DefaultRequest();
-            try {
-                setRequestData(dr);
-                x.setOverview(dr.getOverview());
-                x.setPrice(dr.getPrice());
-                x.setTypeOfBuy(dr.getTypeOfBuy());
-                x.setTypeOfPayment(dr.getTypeOfPayment());
-                db.getPurchasingDataDao().insertAll(x);
-                Toast.makeText(getApplicationContext(), "Add to favorite list!!", Toast.LENGTH_SHORT).show();
-            } catch(NumberFormatException e) {
-                Toast.makeText(getApplicationContext(), "Price should be number", Toast.LENGTH_SHORT).show();
-            } catch(NoInputException e) {
-                Toast.makeText(getApplicationContext(), "All Params should be set.", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -174,20 +138,20 @@ public class SendSheetActivity extends GoogleAPIActivity
      * appropriate.
      */
     private void getResultsFromApi() {
-        if (! isGooglePlayServicesAvailable()) {
+        if (!isGooglePlayServicesAvailable()) {
             System.out.println("いけるで！Googleサービス");
             acquireGooglePlayServices();
         } else if (mCredential.getSelectedAccountName() == null) {
             System.out.println("アカウントやで、、、");
             chooseAccount();
-        } else if (! isDeviceOnline()) {
+        } else if (!isDeviceOnline()) {
             System.out.println("オフラインやで、、、");
             mOutputText.setText("No network connection available.");
         } else {
             System.out.println("ぜんぶおｋ");
             DefaultRequest dr = new DefaultRequest();
             try {
-                setRequestData(dr);
+                dr.setRequestData(this);
                 MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
                 makeRequestTask.setMOutputText(mOutputText);
                 makeRequestTask.setMProgress(mProgress);
@@ -199,51 +163,6 @@ public class SendSheetActivity extends GoogleAPIActivity
                 Toast.makeText(this, "All Params sholud be set.", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private void setRequestData(DefaultRequest dr) throws NumberFormatException, NoInputException{
-        // 購買日の取得
-        String buyDate = Util.getInstance().getEditTextString(this, R.id.buyDate);
-        // 収支分類の取得
-        String typeOfBuyStr = Util.getInstance().getSpinnerString(this, R.id.typeOfBuy);
-        // 支払い分類の取得
-        String typeOfPaymentStr = Util.getInstance().getSpinnerString(this, R.id.typeOfPayment);
-        // 概要の取得
-        String overviewStr = Util.getInstance().getEditTextString(this, R.id.overview);
-        // 金額の取得
-        String priceStr = Util.getInstance().getEditTextString(this, R.id.price);
-        if(Util.getInstance().isAllParamSet(buyDate,
-                typeOfBuyStr,
-                typeOfPaymentStr,
-                overviewStr,
-                priceStr)) {
-            // タイムスタンプの設定
-            dr.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
-            dr.setBuyDate(buyDate);
-            // 収入or支出の設定
-            if(isIncome(typeOfBuyStr)){
-                dr.setIncomeOrPayment("収入");
-            } else {
-                dr.setIncomeOrPayment("支出");
-            }
-            // 収支分類の設定
-            dr.setTypeOfBuy(typeOfBuyStr);
-            if(typeOfPaymentStr.equals("交通系マネーでの支払い")) {
-                dr.setTypeOfPayment("現金等のカード以外");
-                dr.setSuicaPayFlg(true);
-            } else {
-                dr.setTypeOfPayment(typeOfPaymentStr);
-                dr.setSuicaPayFlg(false);
-            }
-            dr.setOverview(overviewStr);
-            dr.setPrice(Integer.parseInt(priceStr));
-        } else {
-            throw new NoInputException();
-        }
-    }
-
-    private boolean isIncome(String typeOfBuy){
-        return typeOfBuy.equals("現金下す") || typeOfBuy.equals("収入");
     }
 
     /**
