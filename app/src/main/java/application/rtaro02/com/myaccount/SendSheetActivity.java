@@ -159,9 +159,7 @@ public class SendSheetActivity extends GoogleAPIActivity
                 makeRequestTask.setMainActivity(this);
                 makeRequestTask.execute();
                 if(Util.getInstance().getRefundflag(this)) {
-                    DefaultRequest dr2 = dr.clone();
-                    dr2.changeRefundParameter();
-                    MakeRequestTasks makeRequestTasks = new MakeRequestTasks(mCredential, dr2);
+                    MakeRequestTasks makeRequestTasks = new MakeRequestTasks(mCredential, dr.getRefundParameter());
                     makeRequestTasks.setMOutputText(mOutputText);
                     makeRequestTasks.setMProgress(mProgress);
                     makeRequestTasks.setMainActivity(this);

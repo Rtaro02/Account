@@ -12,7 +12,7 @@ import application.rtaro02.com.myaccount.util.Util;
  * Created by ryotaro on 2018/04/22.
  */
 
-public class DefaultRequest implements Cloneable {
+public class DefaultRequest {
 
     /**
      * Timestamp of registration time
@@ -50,6 +50,7 @@ public class DefaultRequest implements Cloneable {
     public void setTypeOfPayment(String typeOfPayment) { this.typeOfPayment = typeOfPayment; }
     public void setBuyDate(String buyDate) { this.buyDate = buyDate; }
     public void setPrice(Integer price) { this.price = price; }
+    public void setOverview(String overview) { this.overview = overview; }
 
 
     public void setRequestData(Activity activity) throws NumberFormatException, NoInputException {
@@ -75,26 +76,15 @@ public class DefaultRequest implements Cloneable {
         }
     }
 
-    public void changeRefundParameter() {
+    public DefaultRequest getRefundParameter() {
+        DefaultRequest dr = new DefaultRequest();
         StringBuilder sb = new StringBuilder();
-        this.overview = sb.append(overview).append(" (返金)").toString();
-        this.price = price * -1/3;
-        this.typeOfPayment = "キャッシュ";
-    }
-
-    @Override
-    public DefaultRequest clone() {
-        DefaultRequest dr = null;
-
-        try {
-            dr = (DefaultRequest) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        dr.setOverview(sb.append(overview).append(" (返金)").toString());
+        dr.setBuyDate(this.buyDate);
+        dr.setPrice(price * -1/3);
+        dr.setTimestamp(this.timestamp);
+        dr.setTypeOfPayment("キャッシュ");
+        dr.setTypeOfBuy(this.typeOfBuy);
         return dr;
     }
-
 }
-
-
-
