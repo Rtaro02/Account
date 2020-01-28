@@ -31,6 +31,7 @@ import application.rtaro02.com.myaccount.listener.Move2FavoriteListener;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.PurchasingData;
 import application.rtaro02.com.myaccount.request.MakeRequestTasks;
+import application.rtaro02.com.myaccount.util.Util;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -157,6 +158,15 @@ public class SendSheetActivity extends GoogleAPIActivity
                 makeRequestTask.setMProgress(mProgress);
                 makeRequestTask.setMainActivity(this);
                 makeRequestTask.execute();
+                if(Util.getInstance().getRefundflag(this)) {
+                    DefaultRequest dr2 = dr.clone();
+                    dr2.changeRefundParameter();
+                    MakeRequestTasks makeRequestTasks = new MakeRequestTasks(mCredential, dr2);
+                    makeRequestTasks.setMOutputText(mOutputText);
+                    makeRequestTasks.setMProgress(mProgress);
+                    makeRequestTasks.setMainActivity(this);
+                    makeRequestTasks.execute();
+                }
             } catch(NumberFormatException e) {
                 Toast.makeText(this, "Price should be number", Toast.LENGTH_SHORT).show();
             } catch(NoInputException e) {

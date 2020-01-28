@@ -12,7 +12,7 @@ import application.rtaro02.com.myaccount.util.Util;
  * Created by ryotaro on 2018/04/22.
  */
 
-public class DefaultRequest {
+public class DefaultRequest implements Cloneable {
 
     /**
      * Timestamp of registration time
@@ -75,4 +75,26 @@ public class DefaultRequest {
         }
     }
 
+    public void changeRefundParameter() {
+        StringBuilder sb = new StringBuilder();
+        this.overview = sb.append(overview).append(" (返金)").toString();
+        this.price = price * -1/3;
+        this.typeOfPayment = "キャッシュ";
+    }
+
+    @Override
+    public DefaultRequest clone() {
+        DefaultRequest dr = null;
+
+        try {
+            dr = (DefaultRequest) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return dr;
+    }
+
 }
+
+
+

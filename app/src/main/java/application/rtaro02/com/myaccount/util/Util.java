@@ -1,8 +1,11 @@
 package application.rtaro02.com.myaccount.util;
 
 import android.app.Activity;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import application.rtaro02.com.myaccount.R;
 
 public class Util {
 
@@ -27,5 +30,9 @@ public class Util {
 
     public String getSpinnerString(Activity activity, int id) {
         return ((Spinner)activity.findViewById(id)).getSelectedItem().toString();
+    }
+
+    public boolean getRefundflag(Activity activity) {
+        return ((CheckBox)activity.findViewById(R.id.checkBox)).isChecked();
     }
 }

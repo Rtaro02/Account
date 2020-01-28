@@ -94,6 +94,12 @@
             android:ems="10"
             android:inputType="text" />
 
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="返金案件" />
+
         <Button
             android:id="@+id/sendSheetButton"
             android:layout_width="match_parent"
@@ -110,7 +116,7 @@
             android:id="@+id/move2favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Favorite List" />
+            android:text="Favorite List" />>
 
     </LinearLayout>
 
