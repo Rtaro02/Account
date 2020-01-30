@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 
 import application.rtaro02.com.myaccount.R;
 import application.rtaro02.com.myaccount.exception.NoInputException;
+import application.rtaro02.com.myaccount.util.Constants;
 import application.rtaro02.com.myaccount.util.Util;
 
 /**
@@ -79,12 +80,36 @@ public class DefaultRequest {
     public DefaultRequest getRefundParameter() {
         DefaultRequest dr = new DefaultRequest();
         StringBuilder sb = new StringBuilder();
-        dr.setOverview(sb.append(overview).append(" (返金)").toString());
+        dr.setOverview(sb.append(overview).append(Constants.REFUND_SUFFIX).toString());
         dr.setBuyDate(this.buyDate);
         dr.setPrice(price * -1/3);
         dr.setTimestamp(this.timestamp);
-        dr.setTypeOfPayment("キャッシュ");
+        dr.setTypeOfPayment(Constants.CASH);
         dr.setTypeOfBuy(this.typeOfBuy);
+        return dr;
+    }
+
+    public DefaultRequest getPaymentParameter() {
+        DefaultRequest dr = new DefaultRequest();
+        StringBuilder sb = new StringBuilder();
+        dr.setOverview(sb.append(overview).append(Constants.WAPPY_SUFFIX).toString());
+        dr.setBuyDate(this.buyDate);
+        dr.setPrice(price * 2/3);
+        dr.setTimestamp(this.timestamp);
+        dr.setTypeOfPayment(Constants.CASH);
+        dr.setTypeOfBuy(this.typeOfBuy);
+        return dr;
+    }
+
+    public DefaultRequest balancePasmo() {
+        DefaultRequest dr = new DefaultRequest();
+        StringBuilder sb = new StringBuilder();
+        dr.setOverview(sb.append(overview).append(Constants.PASMO_SUFFIX).toString());
+        dr.setBuyDate(this.buyDate);
+        dr.setPrice(-1 * price);
+        dr.setTimestamp(this.timestamp);
+        dr.setTypeOfPayment(Constants.PASMO);
+        dr.setTypeOfBuy(Constants.TRANSPORT_FEE);
         return dr;
     }
 }

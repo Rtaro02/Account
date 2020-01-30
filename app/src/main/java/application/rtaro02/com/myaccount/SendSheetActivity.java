@@ -153,17 +153,19 @@ public class SendSheetActivity extends GoogleAPIActivity
             DefaultRequest dr = new DefaultRequest();
             try {
                 dr.setRequestData(this);
-                MakeRequestTasks makeRequestTask = new MakeRequestTasks(mCredential, dr);
-                makeRequestTask.setMOutputText(mOutputText);
-                makeRequestTask.setMProgress(mProgress);
-                makeRequestTask.setMainActivity(this);
-                makeRequestTask.execute();
-                if(Util.getInstance().getRefundflag(this)) {
-                    MakeRequestTasks makeRequestTasks = new MakeRequestTasks(mCredential, dr.getRefundParameter());
-                    makeRequestTasks.setMOutputText(mOutputText);
-                    makeRequestTasks.setMProgress(mProgress);
-                    makeRequestTasks.setMainActivity(this);
-                    makeRequestTasks.execute();
+                if(Util.getInstance().getRefundFlag(this)) {
+                    // Refund
+                    sendRequest(mCredential, mOutputText, mProgress, dr);
+                    sendRequest(mCredential, mOutputText, mProgress, dr.getRefundParameter());
+                } else if (Util.getInstance().getPaymentFlag(this)) {
+                    // Pay
+                    sendRequest(mCredential, mOutputText, mProgress, dr.getPaymentParameter());
+                } else {
+                    // Default
+                    sendRequest(mCredential, mOutputText, mProgress, dr);
+                }
+                if(Util.getInstance().payByPasmo(this)) {
+                    sendRequest(mCredential, mOutputText, mProgress, dr.balancePasmo());
                 }
             } catch(NumberFormatException e) {
                 Toast.makeText(this, "Price should be number", Toast.LENGTH_SHORT).show();
@@ -171,6 +173,14 @@ public class SendSheetActivity extends GoogleAPIActivity
                 Toast.makeText(this, "All Params sholud be set.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void sendRequest(GoogleAccountCredential mCredential, TextView mOutputText, ProgressDialog mProgress, DefaultRequest dr) {
+        MakeRequestTasks makeRequestTasks = new MakeRequestTasks(mCredential, dr);
+        makeRequestTasks.setMOutputText(mOutputText);
+        makeRequestTasks.setMProgress(mProgress);
+        makeRequestTasks.setMainActivity(this);
+        makeRequestTasks.execute();
     }
 
     /**

@@ -10,8 +10,8 @@
     tools:context="application.rtaro02.com.myaccount.InputSheetInfoActivity">
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="487dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="16dp">

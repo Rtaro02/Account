@@ -32,7 +32,15 @@ public class Util {
         return ((Spinner)activity.findViewById(id)).getSelectedItem().toString();
     }
 
-    public boolean getRefundflag(Activity activity) {
-        return ((CheckBox)activity.findViewById(R.id.checkBox)).isChecked();
+    public boolean getRefundFlag(Activity activity) {
+        return ((CheckBox)activity.findViewById(R.id.refundCheckbox)).isChecked();
+    }
+
+    public boolean getPaymentFlag(Activity activity) {
+        return ((CheckBox)activity.findViewById(R.id.payCheckbox)).isChecked();
+    }
+
+    public boolean payByPasmo(Activity activity) {
+        return Util.getInstance().getSpinnerString(activity, R.id.typeOfPayment).equals(Constants.TRANSPORT_EMONEY);
     }
 }

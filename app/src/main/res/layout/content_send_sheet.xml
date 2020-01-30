@@ -10,8 +10,8 @@
     tools:context="application.rtaro02.com.myaccount.SendSheetActivity">
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="487dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="16dp">
@@ -94,11 +94,23 @@
             android:ems="10"
             android:inputType="text" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="返金案件" />
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/refundCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返金案件" />
+
+            <CheckBox
+                android:id="@+id/payCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="わぴ払い案件" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/sendSheetButton"
