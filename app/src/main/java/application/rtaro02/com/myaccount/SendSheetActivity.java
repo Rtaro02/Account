@@ -22,7 +22,7 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import application.rtaro02.com.myaccount.exception.NoInputException;
@@ -120,9 +120,12 @@ public class SendSheetActivity extends GoogleAPIActivity
     // デフォルトの購買日を設定する
     private void setDefaultBuyDate() {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
         EditText editText = findViewById(R.id.buyDate);
-        editText.setText(sdf.format(date));
+        editText.setText(String.format("%d/%02d/%02d", year, month + 1, dayofmonth));
         editText.setOnClickListener(new DatePickerDialogListener(this));
     }
 
