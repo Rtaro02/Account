@@ -27,6 +27,7 @@ import java.util.List;
 
 import application.rtaro02.com.myaccount.exception.NoInputException;
 import application.rtaro02.com.myaccount.listener.AddFavoriteClickListener;
+import application.rtaro02.com.myaccount.listener.DatePickerDialogListener;
 import application.rtaro02.com.myaccount.listener.Move2FavoriteListener;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.PurchasingData;
@@ -122,6 +123,7 @@ public class SendSheetActivity extends GoogleAPIActivity
         Date date = new Date();
         EditText editText = findViewById(R.id.buyDate);
         editText.setText(sdf.format(date));
+        editText.setOnClickListener(new DatePickerDialogListener(this));
     }
 
     private class SendClickListener implements View.OnClickListener {
