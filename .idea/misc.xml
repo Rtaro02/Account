@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_favorite_list.xml" value="0.21979166666666666" />
         <entry key="app/src/main/res/layout/activity_input_sheet_info.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/activity_send_sheet.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/content_favorite_list.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/content_input_sheet_info.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/content_send_sheet.xml" value="0.21979166666666666" />
       </map>
     </option>
   </component>
