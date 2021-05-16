@@ -31,7 +31,7 @@ import application.rtaro02.com.myaccount.SendSheetActivity;
 import application.rtaro02.com.myaccount.model.DefaultRequest;
 import application.rtaro02.com.myaccount.model.SheetInfo;
 
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
+import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by ryotaro on 2018/04/21.

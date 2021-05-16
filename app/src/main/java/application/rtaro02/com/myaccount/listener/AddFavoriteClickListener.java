@@ -1,6 +1,6 @@
 package application.rtaro02.com.myaccount.listener;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.view.View;
 import android.widget.Toast;
 

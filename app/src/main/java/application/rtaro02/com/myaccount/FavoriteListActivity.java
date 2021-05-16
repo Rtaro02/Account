@@ -2,7 +2,7 @@ package application.rtaro02.com.myaccount;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;

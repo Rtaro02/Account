@@ -1,7 +1,7 @@
 package application.rtaro02.com.myaccount;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import application.rtaro02.com.myaccount.dao.PurchasingDataDao;
 import application.rtaro02.com.myaccount.model.PurchasingData;
